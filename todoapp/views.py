@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
@@ -11,7 +11,12 @@ def home(request):
         new_todo= todo(user=request.user, todo_name=task)
         new_todo.save()
 
-    return render(request, 'todoapp/todo.html', {})
+    all_todo=todo.objects.filter(user=request.user)
+    context= {
+        'todos': all_todo
+    }
+
+    return render(request, 'todoapp/todo.html', context)
 
 def register(request):
     if request.method =='POST':
@@ -45,7 +50,7 @@ def login(request):
         validate_user= authenticate(username=username , password=password)
         if validate_user is not None:
             login(request,validate_user)
-            return redirect('home_page')
+            return redirect('home-page')
         else:
             messages.error(request, 'Wrong user details ,User doesnot exist')
             return redirect('login')
@@ -58,4 +63,15 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+def delete(request, id):
+    get_todo = get_object_or_404(todo, id=id)
 
+    get_todo.delete()
+    return redirect('home-page')
+
+def update(request, id):
+    get_todo = get_object_or_404(todo, id=id)
+
+    get_todo.status = True  # Assuming this marks it as "Finished"
+    get_todo.save()
+    return redirect('home-page')
