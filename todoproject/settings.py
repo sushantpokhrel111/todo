@@ -11,9 +11,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-import os
-import django_heroku
-import dj_database_url
+# import os
+# import django_heroku
+# import dj_database_url
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -126,10 +126,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATIC_ROOT=os.path.join(BASE_DIR, 'staticfiles')
-STATTICFILES_DIRS= (os.path.join(BASE_DIR, 'static'))
+# STATIC_ROOT=os.path.join(BASE_DIR, 'staticfiles')
+# STATTICFILES_DIRS= (os.path.join(BASE_DIR, 'static'))
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
