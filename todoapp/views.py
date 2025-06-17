@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import todo
 # Create your views here.
+@login_required
 def home(request):
     if request.method =='POST':
         task= request.POST.get('task')
@@ -41,7 +42,7 @@ def register(request):
         return redirect('login')
     return render(request, 'todoapp/register.html', {})
 
-def login(request):
+def login_view(request):
     if request.method =='POST':
         username=request.POST.get('uname')
         
@@ -63,12 +64,13 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+@login_required
 def delete(request, id):
     get_todo = get_object_or_404(todo, id=id)
 
     get_todo.delete()
     return redirect('home-page')
-
+@login_required
 def update(request, id):
     get_todo = get_object_or_404(todo, id=id)
 
